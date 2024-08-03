@@ -1,5 +1,4 @@
 PImage IMG;
-PGraphics SCENE;
 int WD, HT, CX, CY;
 ArrayList<Cell> cells;
 PGraphics pg;
@@ -7,16 +6,19 @@ int tilesX = 60; // 80; // the amount of cols
 int tilesY = 60; // 80; // the amount of rows
 int tileW;
 int tileH;
-float minBright = 0;
-float maxBright = 0;
+int minBright = 0;
+int maxBright = 0;
 int seqStart = 307782;
-int imageIndex = 0;
-int seqLen = 244;
+//int imageIndex = 0;
+//int seqLen = 244;
+int numFrames = 240;
 String filename = "seq/PC" + seqStart + ".JPG";
 boolean invert = true;
 color co1 = invert ? #1C85AD : 255;
 color co2 = invert ? 255 : #1C85AD;
-IntList[] sequence;
+//IntList[] sequence;
+int[][][] sequence;
+int seqFrame = 0;
 
 void setup() {
   size(720, 720);
@@ -26,17 +28,15 @@ void setup() {
   tileH = HT / tilesY;
   CX = WD / 2;
   CY = HT / 2;
-  IMG = loadImage(filename);
+  //IMG = loadImage(filename);
   //IMG.resize(WD, 0);
-  IMG.resize(0, HT);
-  SCENE = createGraphics(WD, HT);
+  //IMG.resize(0, HT);
   pg = createGraphics(WD, HT);
   cells = new ArrayList<Cell>();
-  
-  sequence = getSequence(240);
-  println(sequence[24].get(3599));
 
-  float[] brightBounds = getBrightBounds(IMG);
+  sequence = getSequence(numFrames);
+
+  int[] brightBounds = getBrightBounds(IMG);
   minBright = brightBounds[0];
   maxBright = brightBounds[1];
 
@@ -54,22 +54,21 @@ void setup() {
 }
 
 void draw() {
-  updateImage();
-  SCENE.beginDraw();
-  SCENE.imageMode(CENTER);
-  SCENE.translate(CX, CY);
-  SCENE.image(IMG, 0, 0);
-  SCENE.endDraw();
-
   pg.beginDraw();
   pg.noStroke();
   //pg.strokeWeight(0.5);
   pg.background(co1);
 
-  render(SCENE);
+  //render(SCENE);
+  rendEnder(seqFrame);
 
   pg.endDraw();
   image(pg, 0, 0);
+  
+  seqFrame += 1;
+  if(seqFrame == numFrames) {
+    seqFrame = 0;
+  }
 }
 
 void mousePressed() {
