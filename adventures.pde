@@ -7,13 +7,13 @@ int tilesX = 60; // 80; // the amount of cols
 int tilesY = 60; // 80; // the amount of rows
 float minBright = 0;
 float maxBright = 0;
-int seqStart = 307900;
+int seqStart = 307782;
 int imageIndex = 0;
 int seqLen = 244;
 String filename = "seq/PC" + seqStart + ".JPG";
 boolean invert = true;
-color co1 = invert ? 0 : 255;
-color co2 = invert ? 255 : 0;
+color co1 = invert ? #3F7E95 : 255;
+color co2 = invert ? 255 : #3F7E95;
 
 void setup() {
   size(720, 720);
@@ -42,7 +42,7 @@ void setup() {
   }
 
   //noLoop();
-  frameRate(4);
+  frameRate(8);
 }
 
 void draw() {
@@ -77,6 +77,7 @@ void updateImage() {
     imageIndex = 0;
   }
   filename = "seq/PC" + (seqStart + imageIndex) + ".JPG";
+  //println(filename);
   IMG = loadImage(filename);
   IMG.resize(0, HT);
   //SCENE = createGraphics(WD, HT);

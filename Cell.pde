@@ -53,6 +53,7 @@ class Cell {
     int n = int(map(val, minBright, maxBright, 0, len));
     float incr = (float) s / (n - 1);
     float y0 = -0.5 * len;
+    wut = random(1) > 0.5;
     switch(shapeType) {
     case 0:
     default:
