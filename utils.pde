@@ -94,3 +94,15 @@ float[] getBrightBounds(
 
   return new float[]{minBright, maxBright};
 }
+
+IntList[] getSequence(int len){
+  IntList[] temp = new IntList[len];
+  for(int i = 0; i < len; i++) {
+    IntList wut = new IntList();
+    for(int j = 0; j < tilesX * tilesY; j++) {
+      wut.append(round(random(15)));
+    }
+    temp[i] = wut;
+  }
+  return temp;
+}

@@ -12,8 +12,9 @@ int imageIndex = 0;
 int seqLen = 244;
 String filename = "seq/PC" + seqStart + ".JPG";
 boolean invert = true;
-color co1 = invert ? #3F7E95 : 255;
-color co2 = invert ? 255 : #3F7E95;
+color co1 = invert ? #1C85AD : 255;
+color co2 = invert ? 255 : #1C85AD;
+IntList[] sequence;
 
 void setup() {
   size(720, 720);
@@ -23,10 +24,13 @@ void setup() {
   CY = HT / 2;
   IMG = loadImage(filename);
   //IMG.resize(WD, 0);
-  IMG.resize(0, HT);
+  //IMG.resize(0, HT);
   SCENE = createGraphics(WD, HT);
   pg = createGraphics(WD, HT);
   cells = new ArrayList<Cell>();
+  
+  sequence = getSequence(240);
+  println(sequence[24].get(3599));
 
   float[] brightBounds = getBrightBounds(IMG, tilesX, tilesY);
   minBright = brightBounds[0];
@@ -77,7 +81,7 @@ void updateImage() {
   filename = "seq/PC" + (seqStart + imageIndex) + ".JPG";
   //println(filename);
   IMG = loadImage(filename);
-  IMG.resize(0, HT);
+  //IMG.resize(0, HT);
   //SCENE = createGraphics(WD, HT);
   //pg = createGraphics(WD, HT);
   //cells = new ArrayList<Cell>();
@@ -88,5 +92,5 @@ void updateImage() {
 }
 
 void mousePressed() {
-  updateImage();
+  //invert = !invert;
 }
