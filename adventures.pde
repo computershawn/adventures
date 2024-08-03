@@ -62,9 +62,7 @@ void draw() {
   render(
     SCENE, // Input PGraphics object
     tilesX, // cols
-    tilesY, // rows
-    #000000, // #f1f1f1, // background color
-    #ffffff // foreground color
+    tilesY // rows
     );
 
   pg.endDraw();
@@ -73,7 +71,7 @@ void draw() {
 
 void updateImage() {
   imageIndex += 1;
-  if(imageIndex == seqLen) {
+  if (imageIndex == seqLen) {
     imageIndex = 0;
   }
   filename = "seq/PC" + (seqStart + imageIndex) + ".JPG";

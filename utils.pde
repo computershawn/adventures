@@ -1,9 +1,7 @@
 void render(
   PGraphics in, // the input PGraphics object
   int tilesX, // the amount of cols
-  int tilesY, // the amount of rows
-  color bg, // the background-color
-  color fg // the foreground-color
+  int tilesY // the amount of rows
   ) {
 
   PGraphics pg;
