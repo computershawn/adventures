@@ -2,13 +2,14 @@ class Cell {
   float posX, posY, s;
   color coco = color(0, 227, 255);
   boolean wut = random(1) > 0.5;
-  int shapeType = random(1) > 0.9 ? 1 : 0;
+  //int shapeType = random(1) > 0.9 ? 1 : 0;
+  int shapeType = 0;
 
   Cell(float _posX, float _posY, float _s) {
     posX = _posX;
     posY = _posY;
     s = _s;
-    if (random(1) > 0.96) shapeType = 2;
+    //if (random(1) > 0.96) shapeType = 2;
     float n = random(1);
     if (n > 0.333) {
       if (n <= 0.667) {

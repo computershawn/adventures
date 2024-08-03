@@ -1,8 +1,5 @@
-void rendererAscii(
+void render(
   PGraphics in, // the input PGraphics object
-  PFont fnt, // the font object
-  float fontSize, // the font size
-  String chars, // the charset to use
   int tilesX, // the amount of cols
   int tilesY, // the amount of rows
   color bg, // the background-color

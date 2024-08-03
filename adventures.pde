@@ -1,18 +1,16 @@
 PImage IMG;
 PGraphics SCENE;
-PFont FON;
 int WD, HT, CX, CY;
-String CHARS1 = "█▛▜▟▙▄▀▐▌▞▚▝▖▗";
-//String CHARS2 = "█▓▒░▇▆▅▄▃▂_. ";
-//String CHARS1 = "ÇüéâäàåçêëèïîìÄÅÉæÆôöòûùÿÖÜ¢£¥₧ƒáíóúñÑªº¿⌐¬½¼¡«»░▒▓│┤╡╢╖╕╣║╗╝╜╛┐└┴┬├─┼╞╟╚╔╩╦╠═╬╧╨╤╥╙╘╒╓╫╪┘┌█▄▌▐▀αßΓπΣσµτΦΘΩδ∞φε∩≡±≥≤⌠⌡÷≈°∙·√ⁿ²■";
-//String CHARS1 = "│┤╡╢╖╕╣║╗╝╜╛┐└┴┬├─┼╞╟╚╔╩╦╠═╬╧╨╤╥╙╘╒╓╫╪┘┌";
 ArrayList<Cell> cells;
 PGraphics pg;
 int tilesX = 60; // 80; // the amount of cols
 int tilesY = 60; // 80; // the amount of rows
 float minBright = 0;
 float maxBright = 0;
-String filename = "PC307879.jpg"; // "me.jpg"; // "clouds.jpg";
+int seqStart = 307900;
+int imageIndex = 0;
+int seqLen = 244;
+String filename = "seq/PC" + seqStart + ".JPG";
 boolean invert = true;
 color co1 = invert ? 0 : 255;
 color co2 = invert ? 255 : 0;
@@ -24,8 +22,8 @@ void setup() {
   CX = WD / 2;
   CY = HT / 2;
   IMG = loadImage(filename);
-  IMG.resize(WD, 0);
-  FON = createFont("IBMPlexMono-Medium.ttf", 1000);
+  //IMG.resize(WD, 0);
+  IMG.resize(0, HT);
   SCENE = createGraphics(WD, HT);
   pg = createGraphics(WD, HT);
   cells = new ArrayList<Cell>();
@@ -43,13 +41,12 @@ void setup() {
     }
   }
 
-  //pixelDensity(displayDensity());
-
-  noLoop();
-  //frameRate(2);
+  //noLoop();
+  frameRate(4);
 }
 
 void draw() {
+  updateImage();
   SCENE.beginDraw();
   SCENE.background(#000000);
   SCENE.imageMode(CENTER);
@@ -62,11 +59,8 @@ void draw() {
   //pg.strokeWeight(0.5);
   pg.background(co1);
 
-  rendererAscii(
+  render(
     SCENE, // Input PGraphics object
-    FON, // font to use
-    22, // font size
-    CHARS1, // charset
     tilesX, // cols
     tilesY, // rows
     #000000, // #f1f1f1, // background color
@@ -75,4 +69,25 @@ void draw() {
 
   pg.endDraw();
   image(pg, 0, 0);
+}
+
+void updateImage() {
+  imageIndex += 1;
+  if(imageIndex == seqLen) {
+    imageIndex = 0;
+  }
+  filename = "seq/PC" + (seqStart + imageIndex) + ".JPG";
+  IMG = loadImage(filename);
+  IMG.resize(0, HT);
+  //SCENE = createGraphics(WD, HT);
+  //pg = createGraphics(WD, HT);
+  //cells = new ArrayList<Cell>();
+
+  float[] brightBounds = getBrightBounds(IMG, tilesX, tilesY);
+  minBright = brightBounds[0];
+  maxBright = brightBounds[1];
+}
+
+void mousePressed() {
+  updateImage();
 }
