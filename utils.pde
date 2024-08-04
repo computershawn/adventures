@@ -1,15 +1,13 @@
+// Update each cell's contents based on pixel brightness
 void render(int currentIndex) {
   int[][] temp = sequence[currentIndex];
 
   for (int y = 0; y < temp.length; y++) {
     for (int x = 0; x < temp[y].length; x++) {
-      //int px = int(x * tileW);
-      //int py = int(y * tileH);
-      //color c = buffer.get(px, py);
-      //float val = invert ? brightness(c) : 255 - brightness(c);
       int index = y * tilesX + x;
       Cell cel = cells.get(index);
-      cel.render(temp[y][x], tileW, tileH);
+      int val = temp[y][x]; // Brightness at this x/y coordinate
+      cel.render(val, tileW, tileH);
     }
   }
 }
@@ -34,6 +32,7 @@ int[] getBrightBounds(PImage img) {
   return new int[]{low, high};
 }
 
+// Load an image file and return it as a PImage
 PImage loadNextImage() {
   String filename = "seq/PC" + (seqStart + seqFrame) + ".jpg";
   PImage img = loadImage(filename);
@@ -50,6 +49,10 @@ PImage loadNextImage() {
   return img;
 }
 
+// Read a sequence of image files and populate a 3-dimensional
+// array. The first dimension represents frame number (time).
+// The second dimension is y, and the third dimension is x. The
+// value at sequence[frame][y][x] is a pixel brightness
 int[][][] getSequence(int len) {
   int[][][] temp = new int[len][tilesY][tilesX];
   PGraphics SCENE = createGraphics(tilesX, tilesY);
@@ -72,4 +75,28 @@ int[][][] getSequence(int len) {
   }
 
   return temp;
+}
+
+// Get width and height of input images
+int[] getImageDims() {
+  String filename = "seq/PC" + seqStart + ".jpg";
+  PImage img = loadImage(filename);
+  
+  //int imageWd = img.width;
+  //int imageHt = img.height;
+  
+  println(img.width + " " + img.height);
+  
+  return new int[]{img.width, img.height};
+
+  //int[] brightBounds = getBrightBounds(img);
+  //minBright = brightBounds[0];
+  //maxBright = brightBounds[1];
+
+  //seqFrame += 1;
+  //if (seqFrame == numFrames) {
+  //  seqFrame = 0;
+  //}
+
+  //return img;
 }
