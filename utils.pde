@@ -65,8 +65,8 @@ int[][][] getSequence(int len) {
 
     PImage buffer = SCENE.get();
 
-    for (int y = 0; y < tilesY; y++) {
-      for (int x = 0; x < tilesX; x++) {
+    for (int y = 1; y < tilesY - 1; y++) {
+      for (int x = 1; x < tilesX - 1; x++) {
         color c = buffer.get(x, y);
         float val = invert ? brightness(c) : 255 - brightness(c);
         temp[i][y][x] = round(val);

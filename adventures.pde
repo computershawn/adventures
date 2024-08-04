@@ -1,4 +1,5 @@
 int wd, ht, CX, CY;
+int s;  // Size of each cell
 ArrayList<Cell> cells;
 PGraphics pg;
 int tilesX;  // Width in pixels of the input image file
@@ -28,6 +29,7 @@ void setup() {
   tileH = ht / tilesY;
   pg = createGraphics(wd, ht);
   cells = new ArrayList<Cell>();
+  s = wd / tilesX;
 
   // Variable 'sequence' is a 3-dimensional array
   // of pixel brightness values over time
@@ -35,12 +37,15 @@ void setup() {
 
   for (int y = 0; y < tilesY; y++) {
     for (int x = 0; x < tilesX; x++) {
-      float s = wd / tilesX;
       float posX = wd / tilesX * x + 0.5 * s;
       float posY = ht / tilesY * y + 0.5 * s;
       cells.add(new Cell(posX, posY, s));
     }
   }
+
+  strokeWeight(2);
+  noFill();
+  stroke(co2);
 
   //noLoop();
   frameRate(12);
@@ -53,6 +58,9 @@ void draw() {
   render(seqFrame);
   pg.endDraw();
   image(pg, 0, 0);
+
+  // Draw a nice frame around the artwork
+  rect(0.625 * s, 0.625 * s, wd - 1.25 * s, ht - 1.25 * s);
 
   seqFrame += 1;
   if (seqFrame == numFrames) {
