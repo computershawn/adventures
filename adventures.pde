@@ -48,7 +48,7 @@ void setup() {
   stroke(co2);
 
   //noLoop();
-  frameRate(12);
+  frameRate(6);
 }
 
 void draw() {
