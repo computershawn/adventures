@@ -1,4 +1,4 @@
-void rendEnder(int currentIndex) {
+void render(int currentIndex) {
 
   //PImage buffer = in.get();
   int[][] temp = sequence[currentIndex];
@@ -17,11 +17,11 @@ void rendEnder(int currentIndex) {
 }
 
 int[] getBrightBounds(PImage img) {
-  int dimension = img.width * img.height;
+  int numPixels = img.width * img.height;
   img.loadPixels();
   int low = 1000;
   int high = -1000;
-  for (int i = 0; i < dimension; i++) {
+  for (int i = 0; i < numPixels; i++) {
     color co = img.pixels[i];
     int val = (int) brightness(co);
     if (val < low) {

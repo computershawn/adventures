@@ -51,12 +51,8 @@ void setup() {
 void draw() {
   pg.beginDraw();
   pg.noStroke();
-  //pg.strokeWeight(0.5);
   pg.background(co1);
-
-  //render(SCENE);
-  rendEnder(seqFrame);
-
+  render(seqFrame);
   pg.endDraw();
   image(pg, 0, 0);
   
