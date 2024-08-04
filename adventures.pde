@@ -1,15 +1,15 @@
 int WD, HT, CX, CY;
 ArrayList<Cell> cells;
 PGraphics pg;
-int tilesX = 60; // 80; // the amount of cols
-int tilesY = 60; // 80; // the amount of rows
+int tilesX = 60; // Width in pixels of the input image file
+int tilesY = 60; // Height in pixels of the input image file
 int tileW;
 int tileH;
 int minBright = 1000;
 int maxBright = -1000;
 int seqStart = 307782;
 int numFrames = 240;
-String filename = "seq/PC" + seqStart + ".jpg";
+
 boolean invert = true;
 color co1 = invert ? #1C85AD : 255;
 color co2 = invert ? 255 : #1C85AD;
@@ -22,10 +22,8 @@ void setup() {
   HT = height;
   tileW = WD / tilesX;
   tileH = HT / tilesY;
-  //tileW = 1;
-  //tileH = 1;
-  CX = WD / 2;
-  CY = HT / 2;
+  //CX = WD / 2;
+  //CY = HT / 2;
   pg = createGraphics(WD, HT);
   cells = new ArrayList<Cell>();
   
@@ -45,7 +43,7 @@ void setup() {
   }
 
   //noLoop();
-  frameRate(8);
+  frameRate(12);
 }
 
 void draw() {

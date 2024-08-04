@@ -1,6 +1,4 @@
 void render(int currentIndex) {
-
-  //PImage buffer = in.get();
   int[][] temp = sequence[currentIndex];
 
   for (int y = 0; y < temp.length; y++) {
@@ -16,11 +14,12 @@ void render(int currentIndex) {
   }
 }
 
+// Get the lowest and highest pixel brightness of the image
 int[] getBrightBounds(PImage img) {
   int numPixels = img.width * img.height;
   img.loadPixels();
-  int low = 1000;
-  int high = -1000;
+  int low = minBright;
+  int high = maxBright;
   for (int i = 0; i < numPixels; i++) {
     color co = img.pixels[i];
     int val = (int) brightness(co);
@@ -37,42 +36,35 @@ int[] getBrightBounds(PImage img) {
 
 PImage loadNextImage() {
   String filename = "seq/PC" + (seqStart + seqFrame) + ".jpg";
-  PImage IM = loadImage(filename);
-  IM.resize(0, HT);
+  PImage img = loadImage(filename);
 
-  int[] brightBounds = getBrightBounds(IM);
-  minBright = min(brightBounds[0], minBright);
-  maxBright = max(brightBounds[1], maxBright);
+  int[] brightBounds = getBrightBounds(img);
+  minBright = brightBounds[0];
+  maxBright = brightBounds[1];
 
   seqFrame += 1;
   if (seqFrame == numFrames) {
     seqFrame = 0;
   }
 
-  return IM;
+  return img;
 }
 
 int[][][] getSequence(int len) {
   int[][][] temp = new int[len][tilesY][tilesX];
-  PGraphics SCENE = createGraphics(WD, HT);
+  PGraphics SCENE = createGraphics(tilesX, tilesY);
 
   for (int i = 0; i < len; i++) {
-    PImage im = loadNextImage();
+    PImage img = loadNextImage();
     SCENE.beginDraw();
-    SCENE.imageMode(CENTER);
-    SCENE.translate(CX, CY);
-    SCENE.image(im, 0, 0);
+    SCENE.image(img, 0, 0);
     SCENE.endDraw();
 
     PImage buffer = SCENE.get();
 
     for (int y = 0; y < tilesY; y++) {
       for (int x = 0; x < tilesX; x++) {
-        int px = int(x * tileW);
-        int py = int(y * tileH);
-        //int px = int(x);
-        //int py = int(y);
-        color c = buffer.get(px, py);
+        color c = buffer.get(x, y);
         float val = invert ? brightness(c) : 255 - brightness(c);
         temp[i][y][x] = round(val);
       }
