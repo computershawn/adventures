@@ -1,4 +1,3 @@
-PImage IMG;
 int WD, HT, CX, CY;
 ArrayList<Cell> cells;
 PGraphics pg;
@@ -32,13 +31,9 @@ void setup() {
   
   // Variable 'sequence' is a three-dimensional array. The
   // first dimension represents frame number. The second
-  // dimansion is y, and the third dimension is x. The value
+  // dimension is y, and the third dimension is x. The value
   // at sequence[frame][y][x] is a pixel brightness
   sequence = getSequence(numFrames);
-
-  //int[] brightBounds = getBrightBounds(IMG);
-  //minBright = brightBounds[0];
-  //maxBright = brightBounds[1];
   
   for (int y = 0; y < tilesY; y++) {
     for (int x = 0; x < tilesX; x++) {
