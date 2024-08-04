@@ -6,17 +6,14 @@ int tilesX = 60; // 80; // the amount of cols
 int tilesY = 60; // 80; // the amount of rows
 int tileW;
 int tileH;
-int minBright = 0;
-int maxBright = 0;
+int minBright = 1000;
+int maxBright = -1000;
 int seqStart = 307782;
-//int imageIndex = 0;
-//int seqLen = 244;
 int numFrames = 240;
 String filename = "seq/PC" + seqStart + ".JPG";
 boolean invert = true;
 color co1 = invert ? #1C85AD : 255;
 color co2 = invert ? 255 : #1C85AD;
-//IntList[] sequence;
 int[][][] sequence;
 int seqFrame = 0;
 
@@ -28,18 +25,19 @@ void setup() {
   tileH = HT / tilesY;
   CX = WD / 2;
   CY = HT / 2;
-  //IMG = loadImage(filename);
-  //IMG.resize(WD, 0);
-  //IMG.resize(0, HT);
   pg = createGraphics(WD, HT);
   cells = new ArrayList<Cell>();
-
+  
+  // Variable 'sequence' is a three-dimensional array. The
+  // first dimension represents frame number. The second
+  // dimansion is y, and the third dimension is x. The value
+  // at sequence[frame][y][x] is a pixel brightness
   sequence = getSequence(numFrames);
 
-  int[] brightBounds = getBrightBounds(IMG);
-  minBright = brightBounds[0];
-  maxBright = brightBounds[1];
-
+  //int[] brightBounds = getBrightBounds(IMG);
+  //minBright = brightBounds[0];
+  //maxBright = brightBounds[1];
+  
   for (int y = 0; y < tilesY; y++) {
     for (int x = 0; x < tilesX; x++) {
       float s = WD / tilesX;

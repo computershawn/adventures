@@ -1,24 +1,3 @@
-//void render(
-//  PGraphics in // the input PGraphics object
-//  //int tilesX, // the amount of cols
-//  //int tilesY // the amount of rows
-//  ) {
-
-//  PImage buffer = in.get();
-
-//  for (int y = 0; y < tilesY; y++) {
-//    for (int x = 0; x < tilesX; x++) {
-//      int px = int(x * tileW);
-//      int py = int(y * tileH);
-//      color c = buffer.get(px, py);
-//      float val = invert ? brightness(c) : 255 - brightness(c);
-//      int index = y * tilesX + x;
-//      Cell cel = cells.get(index);
-//      cel.render(val, tileW, tileH);
-//    }
-//  }
-//}
-
 void rendEnder(int currentIndex) {
 
   //PImage buffer = in.get();
@@ -40,39 +19,23 @@ void rendEnder(int currentIndex) {
 int[] getBrightBounds(PImage img) {
   int dimension = img.width * img.height;
   img.loadPixels();
-  int minBright = 1000;
-  int maxBright = -1000;
+  int low = 1000;
+  int high = -1000;
   for (int i = 0; i < dimension; i++) {
     color co = img.pixels[i];
     int val = (int) brightness(co);
-    if (val < minBright) {
-      minBright = val;
+    if (val < low) {
+      low = val;
     }
-    if (val > maxBright) {
-      maxBright = val;
+    if (val > high) {
+      high = val;
     }
   }
 
-  return new int[]{minBright, maxBright};
+  return new int[]{low, high};
 }
 
-//IntList[] getSequence(int len) {
-//  IntList[] temp = new IntList[len];
-//  for (int i = 0; i < len; i++) {
-//    IntList wut = new IntList();
-//    for (int j = 0; j < tilesX * tilesY; j++) {
-//      wut.append(round(random(15)));
-//    }
-//    temp[i] = wut;
-//  }
-//  return temp;
-//}
-
 void updateImage() {
-  //imageIndex += 1;
-  //if (imageIndex == seqLen) {
-  //  imageIndex = 0;
-  //}
   seqFrame += 1;
   if (seqFrame == numFrames) {
     seqFrame = 0;
@@ -82,8 +45,8 @@ void updateImage() {
   IMG.resize(0, HT);
 
   int[] brightBounds = getBrightBounds(IMG);
-  minBright = brightBounds[0];
-  maxBright = brightBounds[1];
+  minBright = min(brightBounds[0], minBright);
+  maxBright = max(brightBounds[1], maxBright);
 }
 
 int[][][] getSequence(int len) {
@@ -111,7 +74,6 @@ int[][][] getSequence(int len) {
         temp[i][y][x] = round(val);
       }
     }
-    //temp[i] = wut;
   }
   return temp;
 }
