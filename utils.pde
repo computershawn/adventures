@@ -1,96 +1,102 @@
-void render(
-  PGraphics in, // the input PGraphics object
-  int tilesX, // the amount of cols
-  int tilesY // the amount of rows
-  ) {
+// Update each cell's contents based on pixel brightness
+void render(int currentIndex) {
+  int[][] temp = sequence[currentIndex];
 
-  PGraphics pg;
-
-  //pg = createGraphics(width, height);
-  //pg.beginDraw();
-  //pg.background(bg);
-  //pg.fill(fg);
-  //pg.noStroke();
-
-  int tileW = width / tilesX;
-  int tileH = height / tilesY;
-
-  //pg.textFont(fnt);
-  //pg.textSize(fontSize);
-  //pg.textAlign(CENTER, CENTER);
-  //pg.translate(width/2, height/2);
-
-  PImage buffer = in.get();
-
-  for (int y = 0; y < tilesY; y++) {
-    for (int x = 0; x < tilesX; x++) {
-      int px = int(x * tileW);
-      int py = int(y * tileH);
-      color c = buffer.get(px, py);
-      float val = invert ? brightness(c) : 255 - brightness(c);
-      ////char ch = chars.charAt(int(map(brightness(c), 0, 255, 0, chars.length()-1)));
-      ////float diam = map(brightness(c), 0, 255, 1, 12);
-
-      //float posX = map(x, 0, tilesX, -spread, spread);
-      //float posY = map(y, 0, tilesY, -spread, spread);
-
+  for (int y = 0; y < temp.length; y++) {
+    for (int x = 0; x < temp[y].length; x++) {
       int index = y * tilesX + x;
       Cell cel = cells.get(index);
+      int val = temp[y][x]; // Brightness at this x/y coordinate
       cel.render(val, tileW, tileH);
-      //pg.text(ch, 0, 0);
-      //pg.circle(0, 0, diam);
-      //pg.rect(0, 0, diam, diam);
-      //pg.fill(brightness(c));
-      //pg.rect(posX, posY, tileW, tileH);
     }
   }
 }
 
-float[] getBrightBounds(
-  PImage img,
-  //PGraphics in, // the input PGraphics object
-  int tilesX, // the amount of cols
-  int tilesY // the amount of rows
-  ) {
-
-  //tower = loadImage("tower.jpg");
-  int dimension = img.width * img.height;
+// Get the lowest and highest pixel brightness of the image
+int[] getBrightBounds(PImage img) {
+  int numPixels = img.width * img.height;
   img.loadPixels();
-  float minBright = 1000;
-  float maxBright = -1000;
-  for (int i = 0; i < dimension; i++) {
-    //tower.pixels[i] = color(0, 0, 0);
+  int low = minBright;
+  int high = maxBright;
+  for (int i = 0; i < numPixels; i++) {
     color co = img.pixels[i];
-    float val = brightness(co);
-    if (val < minBright) {
-      minBright = val;
+    int val = (int) brightness(co);
+    if (val < low) {
+      low = val;
     }
-    if (val > maxBright) {
-      maxBright = val;
+    if (val > high) {
+      high = val;
     }
   }
 
-  //int tileW = width / tilesX;
-  //int tileH = height / tilesY;
+  return new int[]{low, high};
+}
 
-  //PImage buffer = in.get();
-  //float minBright = 1000;
-  //float maxBright = -1000;
+// Load an image file and return it as a PImage
+PImage loadNextImage() {
+  String filename = "seq/PC" + (seqStart + seqFrame) + ".jpg";
+  PImage img = loadImage(filename);
 
-  //for (int y = 0; y < tilesY; y++) {
-  //  for (int x = 0; x < tilesX; x++) {
-  //    int px = int(x * tileW);
-  //    int py = int(y * tileH);
-  //    color c = buffer.get(px, py);
-  //    float val = brightness(c);
-  //    if (val < minBright) {
-  //      minBright = val;
-  //    }
-  //    if (val > maxBright) {
-  //      maxBright = val;
-  //    }
-  //  }
+  int[] brightBounds = getBrightBounds(img);
+  minBright = brightBounds[0];
+  maxBright = brightBounds[1];
+
+  seqFrame += 1;
+  if (seqFrame == numFrames) {
+    seqFrame = 0;
+  }
+
+  return img;
+}
+
+// Read a sequence of image files and populate a 3-dimensional
+// array. The first dimension represents frame number (time).
+// The second dimension is y, and the third dimension is x. The
+// value at sequence[frame][y][x] is a pixel brightness
+int[][][] getSequence(int len) {
+  int[][][] temp = new int[len][tilesY][tilesX];
+  PGraphics SCENE = createGraphics(tilesX, tilesY);
+
+  for (int i = 0; i < len; i++) {
+    PImage img = loadNextImage();
+    SCENE.beginDraw();
+    SCENE.image(img, 0, 0);
+    SCENE.endDraw();
+
+    PImage buffer = SCENE.get();
+
+    for (int y = 1; y < tilesY - 1; y++) {
+      for (int x = 1; x < tilesX - 1; x++) {
+        color c = buffer.get(x, y);
+        float val = invert ? brightness(c) : 255 - brightness(c);
+        temp[i][y][x] = round(val);
+      }
+    }
+  }
+
+  return temp;
+}
+
+// Get width and height of input images
+int[] getImageDims() {
+  String filename = "seq/PC" + seqStart + ".jpg";
+  PImage img = loadImage(filename);
+  
+  //int imageWd = img.width;
+  //int imageHt = img.height;
+  
+  println(img.width + " " + img.height);
+  
+  return new int[]{img.width, img.height};
+
+  //int[] brightBounds = getBrightBounds(img);
+  //minBright = brightBounds[0];
+  //maxBright = brightBounds[1];
+
+  //seqFrame += 1;
+  //if (seqFrame == numFrames) {
+  //  seqFrame = 0;
   //}
 
-  return new float[]{minBright, maxBright};
+  //return img;
 }
