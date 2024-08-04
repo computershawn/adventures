@@ -23,32 +23,32 @@ class Cell {
   void concentrics(float val) {
     int n = int(map(val, minBright, maxBright, 0, 8));
     if (n > 0) {
-      pg.strokeWeight(2);
-      pg.noFill();
-      pg.stroke(co2);
-      pg.point(posX, posY);
-      pg.strokeWeight(1);
-      for (int i = 0; i < n; i++) {
-        float diam = map(i, 0, n, 0.20 * s, 0.96 * s);
-        pg.circle(posX, posY, diam);
-      }
+      //pg.strokeWeight(2);
+      //pg.noFill();
+      //pg.stroke(co2);
+      //pg.point(posX, posY);
+      //pg.strokeWeight(1);
+      //for (int i = 0; i < n; i++) {
+      //  float diam = map(i, 0, n, 0.20 * s, 0.96 * s);
+      //  pg.circle(posX, posY, diam);
+      //}
     }
   }
 
   void tri() {
-    pg.beginShape();
-    pg.noStroke();
-    pg.fill(coco);
-    pg.push();
-    pg.translate(posX, posY);
-    pg.vertex(-s / 2, -s / 2);
-    pg.vertex(-s / 2, s / 2);
-    pg.vertex(s / 2, s / 2);
-    pg.endShape(CLOSE);
-    pg.pop();
+    //pg.beginShape();
+    //pg.noStroke();
+    //pg.fill(coco);
+    //pg.push();
+    //pg.translate(posX, posY);
+    //pg.vertex(-s / 2, -s / 2);
+    //pg.vertex(-s / 2, s / 2);
+    //pg.vertex(s / 2, s / 2);
+    //pg.endShape(CLOSE);
+    //pg.pop();
   }
 
-  void render(float val, int w, int h) {
+  void render(float val, int w, int h, PGraphics scene) {
     int len = h - 1;
     int n = int(map(val, minBright, maxBright, 0, len));
     float incr = (float) s / (n - 1);
@@ -57,14 +57,14 @@ class Cell {
     switch(shapeType) {
     case 0:
     default:
-      pg.stroke(co2);
-      pg.noFill();
+      scene.stroke(co2);
+      scene.noFill();
       for (int i = 0; i < n; i++) {
         float y = y0 + i * incr;
         if (wut) {
-          pg.line(posX - w / 2, posY + y, posX + w / 2, posY + y);
+          scene.line(posX - w / 2, posY + y, posX + w / 2, posY + y);
         } else {
-          pg.line(posX + y, posY - h / 2, posX + y, posY + h / 2);
+          scene.line(posX + y, posY - h / 2, posX + y, posY + h / 2);
         }
       }
       break;
