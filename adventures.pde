@@ -10,7 +10,7 @@ int minBright = 1000;
 int maxBright = -1000;
 int seqStart = 307782;
 int numFrames = 240;
-String filename = "seq/PC" + seqStart + ".JPG";
+String filename = "seq/PC" + seqStart + ".jpg";
 boolean invert = true;
 color co1 = invert ? #1C85AD : 255;
 color co2 = invert ? 255 : #1C85AD;
@@ -23,6 +23,8 @@ void setup() {
   HT = height;
   tileW = WD / tilesX;
   tileH = HT / tilesY;
+  //tileW = 1;
+  //tileH = 1;
   CX = WD / 2;
   CY = HT / 2;
   pg = createGraphics(WD, HT);

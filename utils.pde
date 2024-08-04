@@ -40,7 +40,7 @@ void updateImage() {
   if (seqFrame == numFrames) {
     seqFrame = 0;
   }
-  filename = "seq/PC" + (seqStart + seqFrame) + ".JPG";
+  filename = "seq/PC" + (seqStart + seqFrame) + ".jpg";
   IMG = loadImage(filename);
   IMG.resize(0, HT);
 
@@ -50,6 +50,10 @@ void updateImage() {
 }
 
 int[][][] getSequence(int len) {
+  //println("tilesX " + tilesX);
+  //println("tilesY " + tilesY);
+  //println("tileW " + tileW);
+  //println("tileH " + tileH);
   int[][][] temp = new int[len][tilesY][tilesX];
   PGraphics SCENE1 = createGraphics(WD, HT);
 
@@ -67,8 +71,8 @@ int[][][] getSequence(int len) {
       for (int x = 0; x < tilesX; x++) {
         int px = int(x * tileW);
         int py = int(y * tileH);
-        //int px = int(x * 1);
-        //int py = int(y * 1);
+        //int px = int(x);
+        //int py = int(y);
         color c = buffer.get(px, py);
         float val = invert ? brightness(c) : 255 - brightness(c);
         temp[i][y][x] = round(val);
